@@ -19,7 +19,7 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: badjeff
-      revision: main
+      revision: zmk-0.3
     # - name: zmk-driver-paw3222
     #   remote: sekigon-gonnoc
     #   revision: main
