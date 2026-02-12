@@ -1,33 +1,53 @@
 manifest:
+  defaults:
+    revision: main
+
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
     - name: sayu-hub
       url-base: https://github.com/sayu-hub
-    - name: badjeff    # <-- PMW3610
+    - name: badjeff    # PMW3610
       url-base: https://github.com/badjeff
-    # - name: sekigon-gonnoc  # <-- PAW3222
-    #   url-base: https://github.com/sekigon-gonnoc
-    - name: caksoylar  # <-- RGB LED
+    - name: caksoylar  # RGB LED
       url-base: https://github.com/caksoylar  
-    - name: zettaface  # <-- Input Processor Keybind
+    - name: zettaface  # Input Processor Keybind
       url-base: https://github.com/zettaface
+    - name: cormoran   # DYA Studio core & modules
+      url-base: https://github.com/cormoran
+
   projects:
+    # ZMKのコアを DYA Studio 用 RPC サブシステム付きの cormoran 版に変更
+    # ※ zmkfirmware 本家の代わりにこちらを main として使用します
     - name: zmk
-      remote: zmkfirmware
-      revision: v0.3.0
+      remote: cormoran
+      revision: v0.3-branch+dya
       import: app/west.yml
+
+    # 既存のプロジェクト/ドライバー
     - name: zmk-pmw3610-driver
       remote: badjeff
       revision: zmk-0.3
-    # - name: zmk-driver-paw3222
-    #   remote: sekigon-gonnoc
-    #   revision: main
     - name: zmk-rgbled-widget
       remote: caksoylar
       revision: main
     - name: zmk-input-processor-keybind
       remote: zettaface
       revision: main
+
+    # --- DYA Studio モジュールを追加 ---
+    - name: zmk-module-ble-management
+      remote: cormoran
+      revision: main
+    - name: zmk-module-battery-history
+      remote: cormoran
+      revision: main
+    - name: zmk-module-settings-rpc
+      remote: cormoran
+      revision: main
+    - name: zmk-module-runtime-input-processor
+      remote: cormoran
+      revision: main
+
   self:
     path: config
