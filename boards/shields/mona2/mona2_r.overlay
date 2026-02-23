@@ -71,8 +71,6 @@
     status = "okay";
     device = <&trackball_central>;
 
-　　input-processors = <&zip_temp_layer 5 10000>;　　//オートレイヤーを追加
-
     scroller {
         layers = <3>;
         input-processors = 
@@ -84,3 +82,15 @@
     };
 
 };
+
+//オートレイヤーを追加
+
+/ {
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackball_central>;
+
+        input-processors = <&zip_temp_layer 5 10000>;
+    };
+};
+
