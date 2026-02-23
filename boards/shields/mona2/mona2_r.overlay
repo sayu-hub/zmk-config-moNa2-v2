@@ -94,3 +94,12 @@
     };
 };
 
+&zip_temp_layer {
+    excluded-positions = <
+        17 // J
+        18 // K
+        19 // l
+        29 // K
+        31 // l
+    >;
+};
