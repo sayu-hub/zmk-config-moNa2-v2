@@ -82,7 +82,7 @@
 };
 
 //オートレイヤーを追加
-#include <input/processors.dtsi>
+
 / {
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
