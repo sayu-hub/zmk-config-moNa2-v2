@@ -105,10 +105,10 @@
 
         Win_layer {
             bindings = <
-&kp Q               &kp W         &kp E         &kp R            &kp T                                                          &kp Y        &kp U    &lt 4 I    &kp O    &kp P
-&kp A               &kp S         &kp D         &kp F            &kp G                                  &kp F13                 &kp H        &kp J    &kp K      &kp L    &kp MINUS
-&mt LEFT_CONTROL Z  &kp X         &kp C         &kp V            &kp B        &kp TAB                   &kp GRAVE               &kp N        &lt 3 M  &kp COMMA  &kp DOT  &kp SLASH
-&kp LEFT_SHIFT      &kp LEFT_WIN  &kp LEFT_ALT  &lt 7 BACKSPACE  &lt 6 ENTER  &lt_to_layer_0 0 LANG2    &lt_to_layer_0 0 LANG1  &lt 4 ENTER                               &Macro_NUM_Muhenkan
+&kp Q               &kp W         &kp E         &kp R            &kp T                                                             &kp Y        &kp U    &lt 4 I    &kp O    &kp P
+&kp A               &kp S         &kp D         &kp F            &kp G                                  &kp F13                    &kp H        &kp J    &kp K      &kp L    &kp MINUS
+&mt LEFT_CONTROL Z  &kp X         &kp C         &kp V            &kp B        &kp TAB                   &kp GRAVE                  &kp N        &lt 3 M  &kp COMMA  &kp DOT  &kp SLASH
+&kp LEFT_SHIFT      &kp LEFT_WIN  &kp LEFT_ALT  &lt 7 BACKSPACE  &lt 6 SPACE  &lt_to_layer_0 0 LANG2    &Behavior_Henkan_Muhenkan  &lt 4 ENTER                               &Macro_NUM_Muhenkan
             >;
 
             sensor-bindings = <&scroll_up_down>;
@@ -127,10 +127,10 @@
 
         Num {
             bindings = <
-&kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3      &kp NUMBER_4       &kp NUMBER_5                    &kp F9           &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp LS(MINUS)
-&trans        &trans        &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &trans                  &trans  &kp KP_SLASH     &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp BACKSPACE
-&trans        &trans        &trans            &trans             &trans        &trans    &trans  &kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD
-&trans        &trans        &trans            &trans             &trans        &trans    &trans  &trans                                                              &trans
+&kp F9           &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp NUMBER_5                    &kp F9           &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp LS(MINUS)
+&trans           &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &trans                  &trans  &kp KP_SLASH     &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp BACKSPACE
+&kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &trans        &trans    &trans  &kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD
+&trans           &trans           &trans           &trans           &kp SPACE     &trans    &trans  &trans                                                              &trans
             >;
 
             sensor-bindings = <&scroll_right_left>;
@@ -162,7 +162,7 @@
             bindings = <
 &trans  &trans    &trans    &trans    &trans                    &trans  &trans    &trans  &trans    &trans
 &trans  &mkp MB3  &mkp MB2  &mkp MB1  &trans            &trans  &trans  &mkp MB1  &trans  &mkp MB2  &trans
-&trans  &trans    &trans    &trans    &trans  &trans    &trans  &trans  &mo 3     &trans  &trans    &trans
+&trans  &trans    &trans    &trans    &trans  &trans    &trans  &trans  &lt 3 M   &trans  &trans    &trans
 &trans  &trans    &trans    &trans    &trans  &trans    &trans  &trans                              &trans
             >;
 
@@ -182,7 +182,7 @@
 
         Win_FUNCTION {
             bindings = <
-&kp LC(Q)  &kp LC(W)  &kp LC(E)  &kp LC(R)  &kp LC(T)                     &kp F1  &kp F2  &kp J   &kp F4  &kp F5
+&kp LC(Q)  &kp LC(W)  &kp LC(E)  &kp LC(R)  &kp LC(T)                     &kp F1  &kp F2  &kp F3  &kp F4  &kp F5
 &kp LC(A)  &kp LC(S)  &kp LC(D)  &kp LC(F)  &kp LC(G)            &kp F13  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
 &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LC(B)  &trans    &trans   &trans  &trans  &trans  &trans  &kp F11
 &trans     &trans     &trans     &trans     &trans     &trans    &trans   &trans                          &kp F12
