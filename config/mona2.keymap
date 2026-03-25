@@ -106,7 +106,7 @@
         Win_layer {
             bindings = <
 &kp Q               &kp W         &kp E         &kp R            &kp T                                                             &kp Y        &kp U    &lt 4 I    &kp O    &kp P
-&kp A               &kp S         &kp D         &kp F            &kp G                                  &kp F13                    &kp H        &kp J    &kp K      &kp L    &kp MINUS
+&kp A               &kp S         &kp D         &kp F            &kp G        &kp LS(LG(S))             &kp F13                    &kp H        &kp J    &kp K      &kp L    &kp MINUS
 &mt LEFT_CONTROL Z  &kp X         &kp C         &kp V            &kp B        &kp TAB                   &kp GRAVE                  &kp N        &lt 3 M  &kp COMMA  &kp DOT  &kp SLASH
 &kp LEFT_SHIFT      &kp LEFT_WIN  &kp LEFT_ALT  &lt 7 BACKSPACE  &lt 6 SPACE  &lt_to_layer_0 0 LANG2    &Behavior_Henkan_Muhenkan  &lt 4 ENTER                               &Macro_NUM_Muhenkan
             >;
@@ -117,7 +117,7 @@
         Kigou {
             bindings = <
 &kp EXCLAMATION  &kp AT_SIGN  &kp POUND          &kp DOLLAR  &kp PERCENT                      &kp CARET  &kp AMPERSAND  &kp ASTERISK  &kp MINUS  &kp UNDERSCORE
-&kp GRAVE        &kp TILDE    &kp DOUBLE_QUOTES  &kp SQT     &trans                  &trans   &mkp MB3   &mkp MB1       &mkp MB2      &kp EQUAL  &kp PLUS
+&kp GRAVE        &kp TILDE    &kp DOUBLE_QUOTES  &kp SQT     &trans       &trans     &trans   &mkp MB3   &mkp MB1       &mkp MB2      &kp EQUAL  &kp PLUS
 &kp F1           &kp F2       &kp F3             &kp F4      &kp F5       &kp F11    &kp F12  &kp F6     &kp F7         &kp F8        &kp F9     &kp F10
 &trans           &trans       &trans             &trans      &trans       &trans     &trans   &trans                                             &trans
             >;
@@ -128,7 +128,7 @@
         Num {
             bindings = <
 &kp F9           &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp NUMBER_5                    &kp F9           &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp LS(MINUS)
-&trans           &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &trans                  &trans  &kp KP_SLASH     &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp BACKSPACE
+&trans           &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &trans        &trans    &trans  &kp KP_SLASH     &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp BACKSPACE
 &kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &trans        &trans    &trans  &kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD
 &trans           &trans           &trans           &trans           &kp SPACE     &trans    &trans  &trans                                                              &trans
             >;
@@ -139,7 +139,7 @@
         BT {
             bindings = <
 &trans  &trans  &trans  &trans  &trans                         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&trans  &trans  &trans  &trans  &trans            &trans       &trans        &trans        &trans        &trans        &out OUT_TOG
+&trans  &trans  &trans  &trans  &trans  &trans    &trans       &trans        &trans        &trans        &trans        &out OUT_TOG
 &trans  &trans  &trans  &trans  &trans  &trans    &bootloader  &trans        &trans        &trans        &trans        &bt BT_CLR
 &trans  &trans  &trans  &trans  &trans  &trans    &trans       &trans                                                  &bt BT_CLR_ALL
             >;
@@ -150,7 +150,7 @@
         SCROLL {
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &kp LG(LC(D))     &kp LS(LC(TAB))  &kp UP    &kp LC(TAB)  &kp LC(LG(F4))
-&trans  &trans  &trans  &trans  &trans            &trans  &kp LG(LC(LEFT))  &kp LEFT         &kp DOWN  &kp RIGHT    &kp LG(LC(RIGHT))
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &kp LG(LC(LEFT))  &kp LEFT         &kp DOWN  &kp RIGHT    &kp LG(LC(RIGHT))
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans            &trans           &trans    &trans       &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                                    &trans
             >;
@@ -161,7 +161,7 @@
         MOUSE {
             bindings = <
 &trans  &trans    &trans    &trans    &trans                    &trans  &trans    &trans  &trans    &trans
-&trans  &mkp MB3  &mkp MB2  &mkp MB1  &trans            &trans  &trans  &mkp MB1  &trans  &mkp MB2  &trans
+&trans  &mkp MB3  &mkp MB2  &mkp MB1  &trans  &trans    &trans  &trans  &mkp MB1  &trans  &mkp MB2  &trans
 &trans  &trans    &trans    &trans    &trans  &trans    &trans  &trans  &lt 3 M   &trans  &trans    &trans
 &trans  &trans    &trans    &trans    &trans  &trans    &trans  &trans                              &trans
             >;
@@ -172,7 +172,7 @@
         arrow {
             bindings = <
 &trans  &kp LC(LS(TAB))     &kp PRINTSCREEN         &kp LC(TAB)              &trans                                     &trans  &kp HOME        &kp UP_ARROW    &kp END          &trans
-&trans  &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)     &kp LC(LG(LEFT_ARROW))   &kp LC(LG(RIGHT_ARROW))            &trans  &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &trans
+&trans  &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)     &kp LC(LG(LEFT_ARROW))   &kp LC(LG(RIGHT_ARROW))  &trans    &trans  &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &trans
 &trans  &kp LEFT_SHIFT      &kp LG(LS(LEFT_ARROW))  &kp LG(LS(RIGHT_ARROW))  &trans                   &trans    &trans  &trans  &kp DELETE      &kp PAGE_UP     &kp PAGE_DOWN    &trans
 &trans  &trans              &trans                  &trans                   &trans                   &trans    &trans  &trans                                                   &trans
             >;
@@ -183,7 +183,7 @@
         Win_FUNCTION {
             bindings = <
 &kp LC(Q)  &kp LC(W)  &kp LC(E)  &kp LC(R)  &kp LC(T)                     &kp F1  &kp F2  &kp F3  &kp F4  &kp F5
-&kp LC(A)  &kp LC(S)  &kp LC(D)  &kp LC(F)  &kp LC(G)            &kp F13  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
+&kp LC(A)  &kp LC(S)  &kp LC(D)  &kp LC(F)  &kp LC(G)  &trans    &kp F13  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
 &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LC(B)  &trans    &trans   &trans  &trans  &trans  &trans  &kp F11
 &trans     &trans     &trans     &trans     &trans     &trans    &trans   &trans                          &kp F12
             >;
