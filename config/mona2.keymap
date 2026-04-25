@@ -102,7 +102,7 @@
             bindings = <
 &trans                      &kp F2            &kp F4           &kp F5           &kp F12                                          &trans    &trans     &trans    &trans     &trans
 &kp LCTRL                   &kp LALT          &kp LS(LCTRL)    &kp KP_NUMBER_6  &kp ASTERISK                             &trans  &mkp MB4  &mkp LCLK  &kp UP    &mkp RCLK  &kp PIPE
-&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1   &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD                               &trans  &kp HOME  &kp LEFT   &kp DOWN  &kp RIGHT  &kp END
+&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1   &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD    &trans                     &trans  &kp HOME  &kp LEFT   &kp DOWN  &kp RIGHT  &kp END
 &kp ESC                     &kp LEFT_CONTROL  &kp LEFT_GUI     &trans           &trans        &kp LEFT_SHIFT             &trans  &trans                                    &trans
             >;
 
@@ -113,7 +113,7 @@
             bindings = <
 &kp SPACE  &kp LC(PAGE_UP)  &kp LG(TAB)         &kp LC(PAGE_DOWN)  &trans                            &trans        &trans            &trans        &trans             &kp LA(LC(DELETE))
 &kp SPACE  &kp LS(TAB)      &kp LEFT_ALT        &kp TAB            &kp SPACE               &trans    &trans        &kp LC(LG(LEFT))  &kp LS(UP)    &kp LC(LG(RIGHT))  &trans
-&kp SPACE  &kp SPACE        &kp LG(DOWN_ARROW)  &kp SPACE          &kp SPACE               &trans    &kp LS(HOME)  &kp LS(LEFT)      &kp LS(DOWN)  &kp LS(RIGHT)      &kp LS(END)
+&kp SPACE  &kp SPACE        &kp LG(DOWN_ARROW)  &kp SPACE          &kp SPACE  &trans       &trans    &kp LS(HOME)  &kp LS(LEFT)      &kp LS(DOWN)  &kp LS(RIGHT)      &kp LS(END)
 &kp ESC    &kp LCTRL        &kp LGUI            &trans             &trans     &kp LSHFT    &kp BSPC  &kp LA(RET)                                                      &trans
             >;
 
