@@ -1,0 +1,81 @@
+From: mona2 dya-studio-v2
+Subject: [PATCH] Web UI: 数値入力欄が最初の1桁で固まる問題を修正
+
+適用先リポジトリ:
+  https://github.com/shakushakupanda/zmk-module-mouse-gesture-rpc
+  ブランチ: main   (Web UI は main ブランチ側にあります)
+  対象ファイル: web/src/App.tsx
+
+症状:
+  Settings カード（Inertial scroll の Tick interval / Start delay /
+  Min velocity など）の数値欄で、値を打ち直しても最初の1桁で止まってしまい
+  意図した値を入力できない。
+
+原因:
+  NumberField が 1 文字入力するたびに commit() を呼んで親の value を更新し、
+  その value 変更を useEffect が拾って setText() で入力欄を書き戻していた。
+  制御コンポーネントの value が毎キーストロークで差し替わるためキャレットが
+  先頭へ戻り、"2" のあとに "0" を打つと "02" になって Number("02") = 2 に
+  丸められる。結果として最初に打った 1 桁のまま動かなくなる。
+
+修正:
+  入力中 (focus 中) は文字列をローカルに保持するだけにして、
+  blur または Enter で初めて commit する。入力中は useEffect による
+  書き戻しも行わない。Save ボタンは blur 後の draft を読むため
+  従来どおりの操作感で保存できる。
+
+適用方法:
+  git clone -b main https://github.com/shakushakupanda/zmk-module-mouse-gesture-rpc
+  cd zmk-module-mouse-gesture-rpc
+  git apply /path/to/mouse-gesture-web-numberfield.patch
+  git commit -am "web: fix NumberField caret reset making inputs uneditable"
+  git push
+
+---
+diff --git a/web/src/App.tsx b/web/src/App.tsx
+index ac76804..b5c30c0 100644
+--- a/web/src/App.tsx
++++ b/web/src/App.tsx
+@@ -808,10 +808,18 @@ function NumberField({
+     onChange: (v: number) => void;
+ }) {
+     const [text, setText] = useState(String(value));
++    const [editing, setEditing] = useState(false);
+ 
++    // Only re-sync the text box from the prop while the user is not typing in
++    // it. Syncing on every keystroke used to fight the caret: committing after
++    // each character rewrote `value`, the effect rewrote `text`, and the caret
++    // jumped back to the start -- so typing "20" over "2" produced "02" -> 2
++    // and the field looked stuck on the first digit typed.
+     useEffect(() => {
+-        setText(String(value));
+-    }, [value]);
++        if (!editing) {
++            setText(String(value));
++        }
++    }, [value, editing]);
+ 
+     const commit = (next: string) => {
+         if (next.trim() === "") return;
+@@ -829,13 +837,20 @@ function NumberField({
+                 inputMode="numeric"
+                 pattern="[0-9]*"
+                 value={text}
++                onFocus={() => setEditing(true)}
+                 onChange={(e) => {
+                     const next = e.target.value;
+                     if (!/^\d*$/.test(next)) return;
++                    // Keep the raw text while typing; commit on blur / Enter.
+                     setText(next);
+-                    commit(next);
++                }}
++                onKeyDown={(e) => {
++                    if (e.key === "Enter") {
++                        e.currentTarget.blur();
++                    }
+                 }}
+                 onBlur={() => {
++                    setEditing(false);
+                     if (text.trim() === "") {
+                         setText(String(value));
+                     } else {

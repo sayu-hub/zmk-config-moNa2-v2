@@ -14,41 +14,127 @@ manifest:
       url-base: https://github.com/caksoylar
     - name: zettaface  # <-- Input Processor Keybind
       url-base: https://github.com/zettaface
+    - name: kot149       # <-- Mouse Gesture (upstream)
+      url-base: https://github.com/kot149
+    - name: shakushakupanda  # <-- mouse gesture RPC module
+      url-base: https://github.com/shakushakupanda
   projects:
-    # ── ZMK 本体は cormoran さんの DYA Studio 対応 fork に切替 ──
+    # ── ZMK 本体 ────────────────────────────────────────────────
+    # DYA Studio の最新機能 (ランタイムマクロ / ランタイムコンボ) は
+    # cormoran さんの custom Studio RPC プロトコルを含む ZMK でしか動かない。
+    # `main+dya` は `main+custom-studio-protocol` を包含する DYA 向けブランチで、
+    # cormoran/zmk-keyboard-dya2 v2.0 が実際に採用している構成。
+    # ベースは ZMK v0.4 系 (Zephyr 4.1) で、旧 `v0.3-branch+dya` (Zephyr 3.5) から
+    # メジャーバージョンが上がっている点に注意。
     - name: zmk
       remote: cormoran
-      revision: v0.3-branch+dya
+      revision: main+dya
       import: app/west.yml
-    # ── DYA Studio modules ──
+
+    # ── DYA Studio 共通基盤 ─────────────────────────────────────
+    # 設定の永続化レイヤ。runtime-input-processor / runtime-combo /
+    # runtime-macro がすべてこの上に乗るため必須。
+    - name: zmk-feature-custom-settings
+      remote: cormoran
+      revision: main
     - name: zmk-module-ble-management
       remote: cormoran
-      revision: 851661c  # pin: v0.4移行(b7eccc3)の直前。fork v0.3-branch+dya 互換
+      revision: main
+    - name: zmk-module-settings-rpc
+      remote: cormoran
+      revision: main
+    - name: zmk-module-runtime-input-processor
+      remote: cormoran
+      revision: main
+    - name: zmk-behavior-runtime-sensor-rotate
+      remote: cormoran
+      revision: main
     # zmk-module-battery-history は使わないので無効化
     # - name: zmk-module-battery-history
     #   remote: cormoran
     #   revision: main
-    - name: zmk-module-settings-rpc
+
+    # ── マクロ / コンボのランタイム編集 ─────────────────────────
+    - name: zmk-feature-runtime-combo
       remote: cormoran
-      revision: ad1c995  # pin: 現HEAD。fork互換（relay関数はfork側に存在）
-    - name: zmk-module-runtime-input-processor
+      revision: main
+    - name: zmk-feature-runtime-macro
       remote: cormoran
-      revision: dbf92f7  # pin: v4移行(e643dfe)の直前。1引数 zmk_keymap_layer_activate 互換
-    - name: zmk-behavior-runtime-sensor-rotate
+      revision: main
+
+    # ── DYA Studio の診断タブ用 ─────────────────────────────────
+    # キースイッチ (キー押下統計とチャタリング検出)
+    - name: zmk-feature-kscan-diagnostics
       remote: cormoran
-      revision: 3bbd992  # pin: 現HEAD（v4移行なし、fork互換）
-    # ── 既存モジュール ──
-    - name: zmk-pmw3610-driver
-      remote: badjeff
-      revision: zmk-0.3
+      revision: main
+    # キースイッチ診断のライブ表示 (kscan-diagnostics の推奨依存)
+    - name: zmk-feature-input-stream
+      remote: cormoran
+      revision: main
+    # スタック使用量など開発者向けツール
+    - name: zmk-module-devtool
+      remote: cormoran
+      revision: main
+    # デバイス情報 (ビルド / ハードウェア / ランタイムの詳細)
+    - name: zmk-feature-device-info
+      remote: cormoran
+      revision: main
+    # 安定性 (フリーズ・クラッシュ・予期しないリセットの記録)
+    - name: zmk-feature-watchdog
+      remote: cormoran
+      revision: main
+    # Zephyr settings の閲覧
+    - name: zmk-feature-zephyr-setting-expose
+      remote: cormoran
+      revision: main
+    # Studio RPC の性能計測
+    - name: zmk-feature-studio-rpc-perf
+      remote: cormoran
+      revision: main
+
+    # ── OS ごとのデフォルトレイヤー ─────────────────────────────
+    # NOTE: main ブランチには custom Studio RPC が入っておらず
+    #       DYA Studio のパネルから操作できないため、
+    #       cormoran/zmk-keyboard-dya2 v2.0 と同じ codex/custom-rpc-rewrite を使う。
+    - name: zmk-feature-default-layer
+      remote: cormoran
+      revision: codex/custom-rpc-rewrite
+    # デフォルトレイヤーを OS 判定で切り替えるために必要
+    - name: zmk-feature-os-detection
+      remote: cormoran
+      revision: main
+
+    # ── 既存モジュール ──────────────────────────────────────────
+    # トラックボール (PMW3610)
+    # DYA Studio の「トラックボールセンサー」診断タブを使うため、
+    # badjeff/zmk-pmw3610-driver から cormoran さんの custom Studio RPC 対応版へ移行。
+    # compatible が "pixart,pmw3610-alt" -> "cormoran,pmw3610" に変わり、
+    # swap-xy / invert-x / invert-y は devicetree プロパティではなく
+    # CONFIG_PMW3610_SWAP_XY / _INVERT_X / _INVERT_Y (かつ Studio から実行時変更可) になる。
+    - name: zmk-driver-pmw3610-with-custom-studio-rpc
+      remote: cormoran
+      revision: main
     - name: zmk-driver-paw3222
       remote: sekigon-gonnoc
       revision: main
+    # v0.3 ブランチは Zephyr 3.5 向けなので main (最新 ZMK 向け) へ切替
     - name: zmk-rgbled-widget
       remote: caksoylar
-      revision: v0.3
+      revision: main
     - name: zmk-input-processor-keybind
       remote: zettaface
+      revision: main
+
+    # ── Mouse Gesture (kot149 + custom RPC) ─────────────────────
+    # zmk-module-mouse-gesture-rpc は expose-mg-set-to-studio を main へ
+    # マージ済みのため main を参照する。ZMK v0.4 の endpoints API 改名対応と
+    # 慣性スクロールの既定オフもモジュール側に取り込まれているので、
+    # 以前あった互換シム (compat/) は不要になり削除した。
+    - name: zmk-mouse-gesture
+      remote: shakushakupanda
+      revision: suppress-cursor-while-active
+    - name: zmk-module-mouse-gesture-rpc
+      remote: shakushakupanda
       revision: main
   self:
     path: config

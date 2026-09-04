@@ -18,6 +18,8 @@ config ZMK_POINTING
 config SPI
     default y
 
+# cormoran/zmk-driver-pmw3610-with-custom-studio-rpc のドライバ本体
+# (DT に compatible = "cormoran,pmw3610" のノードが無ければ自動的に無効)
 config PMW3610
     default y
 

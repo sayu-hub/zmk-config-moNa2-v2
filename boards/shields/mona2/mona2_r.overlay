@@ -4,6 +4,7 @@
 #include <input/processors/runtime-input-processor.dtsi>
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <dt-bindings/zmk/mouse-gesture.h>
 
 &default_transform {
     col-offset = <6>;
@@ -23,16 +24,16 @@
     spi0_default: spi0_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
+                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
+                <NRF_PSEL(SPIM_MISO, 0, 4)>;
         };
     };
 
     spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
+                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
+                <NRF_PSEL(SPIM_MISO, 0, 4)>;
             low-power-enable;
         };
     };
@@ -51,66 +52,75 @@
 #ifdef CONFIG_TRACKBALL_PAW3222
         compatible = "pixart,paw3222";
         reg = <0>;
-        spi-max-frequency = <2000000>;
+        spi-max-frequency = <1000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        force-awake;
 #else /* default: PMW3610 */
-        compatible = "pixart,pmw3610";
+        /* cormoran さんの custom Studio RPC 対応 PMW3610 ドライバ。
+           DYA Studio の「トラックボールセンサー」診断タブがこれを要求する。
+           (Zephyr 4.1 が純正 "pixart,pmw3610" ドライバを取り込んだため、
+            そもそも旧 compatible "pixart,pmw3610" はもう使えない。)
+
+           軸の反転は devicetree ではなく
+           CONFIG_PMW3610_SWAP_XY / _INVERT_X / _INVERT_Y で指定する。
+           DYA Studio から実行時にも変更できる (mona2_r.conf 参照)。 */
+        compatible = "cormoran,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         cpi = <600>;
-        //swap-xy;
-        invert-x;       //COROPIT版ではコメントアウトを外す
-        //invert-y;     //この個体ではY軸は反転不要だったためコメントアウト
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
+        /* DYA Studio 上でこのセンサーを識別するための短い ID */
+        settings-id = "tball";
 #endif
     };
 };
 
 /* ─────────────────────────────────────────────────────────────
    scroll_runtime_input_processor をスクロール変換器として上書き
-
-   デフォルトでは x-codes=HWHEEL / y-codes=WHEEL で
-   「すでにスクロールイベントになっているもの」しか処理しない設定。
-   トラックボールの生イベント(REL_X/Y) を受け取って
-   xy-to-scroll-enabled でスクロールに変換する形に切替える。
-
-   ・active-layers : デフォルトのスクロールレイヤー bitmask
-                     bit6=scroll_win, bit7=scroll_mac → 0x000000C0
-                     DYA Studio から変更可能(再ビルド不要)
-   ・xy-to-scroll-enabled : REL_X→HWHEEL, REL_Y→WHEEL に変換
-                            こちらも Studio から ON/OFF 可能
    ────────────────────────────────────────────────────── */
 &scroll_runtime_input_processor {
     x-codes = <INPUT_REL_X>;
     y-codes = <INPUT_REL_Y>;
     xy-to-scroll-enabled;
-    active-layers = <0x000000C0>;  /* layer6 + layer7 */
+    active-layers = <0x000000C0>; /* layer6 + layer7 */
     scale-multiplier = <1>;
-    scale-divisor = <4>;            /* スクロール速度。大きいほど遅い。Studioで調整可 */
-    /* 軸ロック(縦のみ等)が欲しければ AXIS_SNAP_MODE_Y を初期値に */
-    /* #include <dt-bindings/zmk/runtime_input_processor.h> 必要 */
-    /* axis-snap-mode = <2>; */
-    /* axis-snap-threshold = <100>; */
+    scale-divisor = <1>;   /* Studio UI の倍率がそのまま実効値 (1.0x基準)。固定減速は listener 側 zip_scroll_scaler */
 };
 
-/* マウス用は全レイヤーで有効 (active-layers = 0 がデフォルト) */
 &mouse_runtime_input_processor {
-    /* 例: マウス感度初期値を Studio から調整したいだけならここで触らなくてOK */
 };
 
 /* ─────────────────────────────────────────────────────────────
-   入力リスナー
-   メインチェーンに mouse → scroll の順で2段。
-   ・mouse は全レイヤーで走る(scale/invert を適用)
-   ・scroll は active-layers のレイヤーでのみ走る
-     → 該当レイヤー以外では素通しでマウスとして動作
-   scroller {} 子ノードは使わない(レイヤー固定になるため)
+   kot149 mouse-gesture input processor (Phase 5)
+   トップレベルの新規ノードなので `/ { ... }` で包む
    ────────────────────────────────────────────────────── */
+/ {
+    mg: mouse_gesture {
+        compatible = "zmk,input-processor-mouse-gesture";
+        #input-processor-cells = <0>;
+        /* Activate only while &mg_set is held so normal mouse/scroll layers do not trigger gestures. */
+        stroke-size = <200>;
+        idle-timeout-ms = <150>;
+        gesture-cooldown-ms = <500>;
+
+        placeholder {
+            pattern = <GESTURE_UP GESTURE_RIGHT>;
+            bindings = <&kp ESC>;
+        };
+    };
+    inertial_scroll: inertial_scroll {
+        compatible = "zmk,input-processor-inertial-scroll";
+        status = "okay";
+        #input-processor-cells = <0>;
+    };
+
+};
+
 &trackball_central_listener {
     status = "okay";
     device = <&trackball_central>;
-    input-processors = <&mouse_runtime_input_processor &scroll_runtime_input_processor>;
+    input-processors = <&mg &mouse_runtime_input_processor &scroll_runtime_input_processor &zip_scroll_scaler 1 100 &inertial_scroll>;
 };

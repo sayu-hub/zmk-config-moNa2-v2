@@ -1,5 +1,9 @@
 on: [push, pull_request, workflow_dispatch]
 
+# NOTE: ZMK v0.4 (Zephyr 4.1 / HWMv2) 対応のため、再利用ワークフローの参照先を
+#       v0.3.0 タグから main へ変更している。
+#       v0.3.0 のワークフローは Zephyr 3.5 前提のビルドコンテナ／ボード命名を
+#       想定しており、`xiao_ble/nrf52840/zmk` ではビルドできない。
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main

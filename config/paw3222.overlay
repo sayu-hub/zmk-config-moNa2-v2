@@ -1,0 +1,27 @@
+/*
+ * PAW3222 センサ版 mona2 用 devicetree オーバーレイ。
+ *
+ * NOTE: Zephyr は devicetree を Kconfig より先に処理するため、
+ *       .overlay 内の `#ifdef CONFIG_TRACKBALL_PAW3222` は
+ *       クリーンビルドでは常に偽になり機能しない
+ *       (以前の build.yaml は EXTRA_CONF_FILE だけを渡していたので、
+ *        paw3222 用の成果物が実際には PMW3610 ビルドになっていた)。
+ *       そのためセンサの切り替えはこのオーバーレイで行う。
+ *
+ * build.yaml から
+ *   -DEXTRA_DTC_OVERLAY_FILE=.../config/paw3222.overlay
+ * として渡される。
+ */
+
+&trackball_central {
+    compatible = "pixart,paw3222";
+    spi-max-frequency = <1000000>;
+    force-awake;
+
+    /* PMW3610 固有プロパティは PAW3222 バインディングには無いので削除 */
+    /delete-property/ cpi;
+    /delete-property/ evt-type;
+    /delete-property/ x-input-code;
+    /delete-property/ y-input-code;
+    /delete-property/ settings-id;
+};

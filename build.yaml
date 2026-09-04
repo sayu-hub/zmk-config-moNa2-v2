@@ -16,29 +16,25 @@
 #     cmake-args: -DCONFIG_ZMK_USB_LOGGING=y
 #     artifact-name: corne_left_with_logging
 #
+# NOTE: ZMK v0.4 (Zephyr 4.1 / HWMv2) でボード名が
+#       `seeeduino_xiao_ble` から `xiao_ble` へ変更され、さらに ZMK 用の
+#       ボードバリアント指定 `/nrf52840/zmk` が必須になった
+#       (指定しないと CI が "Missing ZMK Compat" で失敗する)。
 ---
 include:
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble/nrf52840/zmk
     shield: mona2_r rgbled_adapter
     snippet: studio-rpc-usb-uart
     artifact-name: mona2_r-pmw3610
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble/nrf52840/zmk
     shield: mona2_r rgbled_adapter
     snippet: studio-rpc-usb-uart
-    cmake-args: '-DEXTRA_CONF_FILE=../../config/paw3222.conf'
+    # NOTE: Zephyr は devicetree を Kconfig より先に処理するため、
+    #       .overlay 内の #ifdef CONFIG_TRACKBALL_PAW3222 はクリーンビルドで効かない。
+    #       センサの切り替えは paw3222.overlay 側で行う。
+    cmake-args: '-DEXTRA_CONF_FILE=../../config/paw3222.conf -DEXTRA_DTC_OVERLAY_FILE=../../config/paw3222.overlay'
     artifact-name: mona2_r-paw3222
-  # ── デバッグ用：central(右) を USB ロギング付きでビルド ──
-  # studio-rpc-usb-uart スナップショットは付けない（USB の CDC ACM を
-  # ロギング・コンソール専用にして二重 CDC 競合を避けるため）。
-  # ZMK_USB_LOGGING=y で ZMK ログは自動的に DBG(level 4) になる。
-  # PMW3610 ベース。PAW3222 機なら下の cmake-args の行を有効化して使う。
-  - board: seeeduino_xiao_ble
-    shield: mona2_r rgbled_adapter
-    snippet: cdc-acm-console
-    cmake-args: '-DCONFIG_ZMK_USB_LOGGING=y'
-    # cmake-args: '-DCONFIG_ZMK_USB_LOGGING=y -DEXTRA_CONF_FILE=../../config/paw3222.conf'
-    artifact-name: mona2_r-logging
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble/nrf52840/zmk
     shield: mona2_l rgbled_adapter
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble/nrf52840/zmk
     shield: settings_reset
