@@ -16,33 +16,33 @@ layers:
   - D
   - F
   - G
-  - '-'
+  - F13
   - H
   - J
   - K
   - L
-  - {t: ;, h: MOUSE_W}
+  - ;
   - {t: Z, h: LEFT SHIFT}
   - X
   - C
   - V
   - B
-  - ':'
-  - ;
+  - F14
+  - F15
   - N
   - M
   - ','
   - .
-  - {t: /, h: BLE_W}
-  - RCTRL
+  - /
+  - LCTRL
   - LEFT WIN
-  - LEFT ALT
-  - {t: '`', h: NUM_W}
-  - {t: SPACE, h: MOUSE_W}
-  - {t: '-', h: SCRL_W}
-  - ENTER
+  - F16
   - BACKSPACE
-  - RIGHT SHIFT
+  - {t: ENTER, h: NUM_W}
+  - {t: '&to_layer_0 LANG2', h: NUM_M}
+  - {t: '&to_layer_0 LANG1', h: NUM_M}
+  - {t: SPACE, h: MAC}
+  - LEFT ALT
   MAC:
   - Q
   - W
@@ -84,7 +84,7 @@ layers:
   - {t: SPACE, h: MOUSE_M}
   - {t: '-', h: SCRL_M}
   - ENTER
-  - BACKSPACE
+  - {t: BACKSPACE, type: held}
   - RIGHT SHIFT
   NUM_W:
   - ESCAPE
@@ -123,8 +123,8 @@ layers:
   - LCTRL
   - LEFT GUI
   - LEFT ALT
-  - {type: held}
   - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   - ENTER
   - BACKSPACE
@@ -166,9 +166,9 @@ layers:
   - LEFT GUI
   - LEFT GUI
   - LEFT ALT
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - ENTER
   - BACKSPACE
   - RIGHT SHIFT
@@ -213,7 +213,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - ENTER
-  - BACKSPACE
+  - {t: BACKSPACE, type: held}
   - '|'
   MOUSE_M:
   - ESCAPE
@@ -256,7 +256,7 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   - ENTER
-  - BACKSPACE
+  - {t: BACKSPACE, type: held}
   - '|'
   SCRL_W:
   - ESCAPE
@@ -277,9 +277,9 @@ layers:
   - OUT TOG
   - {t: ▽, type: trans}
   - '&mkp MB1'
-  - {t: ▽, type: trans}
+  - {type: held}
   - '&mkp MB2'
-  - {t: ▽, type: trans}
+  - {type: held}
   - LEFT SHIFT
   - Gui+Sft+LEFT ARROW
   - {t: ▽, type: trans}
@@ -297,9 +297,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   SCRL_M:
   - ESCAPE
@@ -342,7 +342,7 @@ layers:
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
   - {t: ▽, type: trans}
   FN_W:
   - {t: ▽, type: trans}
@@ -463,7 +463,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: BT CLR, type: held}
+  - BT CLR
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -514,7 +514,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - '&bootloader'
+  - {t: '&bootloader', type: held}
   - BT CLR ALL
 combos:
 - p: [39, 38]
